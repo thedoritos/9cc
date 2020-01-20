@@ -7,3 +7,9 @@ Study to write C compiler based on [低レイヤを知りたい人のためのC�
 ```sh
 $ docker build -t compilerbook .
 ```
+
+## Make
+
+```sh
+$ docker run --rm -v $PWD/src:/9cc -w /9cc compilerbook make test
+```
