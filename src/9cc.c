@@ -29,6 +29,16 @@ void error(char *fmt, ...) {
   exit(1);
 }
 
+char *user_input;
+
+void error_at(char *loc, char *fmt, ...) {
+  int pos = loc - user_input;
+  fprintf(stderr, "%s\n", user_input);
+  fprintf(stderr, "%*s", pos, "");
+  fprintf(stderr, "^ ");
+  error(fmt);
+}
+
 bool consume(char op) {
   if (token->kind != TK_RESERVED || token->str[0] != op) {
     return false;
@@ -39,14 +49,14 @@ bool consume(char op) {
 
 void expect(char op) {
   if (token->kind != TK_RESERVED || token->str[0] != op) {
-    error("Character is not a symbol of '%c'", op);
+    error_at(token->str, "Character is not a symbol of '%c'", op);
   }
   token = token->next;
 }
 
 int expect_number() {
   if (token->kind != TK_NUM) {
-    error("Character is not a number");
+    error_at(token->str, "Character is not a number");
   }
   int val = token->val;
   token = token->next;
@@ -100,6 +110,7 @@ int main(int argc, char **argv) {
     return 1;
   }
 
+  user_input = argv[1];
   token = tokenize(argv[1]);
 
   printf(".intel_syntax noprefix\n");
