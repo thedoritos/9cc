@@ -63,9 +63,7 @@ int expect_number() {
   return val;
 }
 
-bool at_eof() {
-  return token->kind == TK_EOF;
-}
+bool at_eof() { return token->kind == TK_EOF; }
 
 Token *new_token(TokenKind kind, Token *cur, char *str) {
   Token *t = calloc(1, sizeof(Token));
