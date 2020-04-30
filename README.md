@@ -13,3 +13,10 @@ $ docker build -t compilerbook .
 ```sh
 $ docker run --rm -v $PWD/src:/9cc -w /9cc compilerbook make test
 ```
+
+## Formatting
+
+```sh
+$ brew install clang-format
+$ clang-format -style=llvm -dump-config > .clang-format
+```
