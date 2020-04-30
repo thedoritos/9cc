@@ -133,6 +133,20 @@ Token *tokenize(char *p) {
   return head.next;
 }
 
+Node *primary() { return new_node_num(expect_number()); }
+
+Node *expr() {
+  Node *node = primary();
+  for (;;) {
+    if (consume('+'))
+      node = new_node(ND_ADD, node, primary());
+    else if (consume('-'))
+      node = new_node(ND_SUB, node, primary());
+    else
+      return node;
+  }
+}
+
 int main(int argc, char **argv) {
   if (argc != 2) {
     fprintf(stderr, "Wrong number of args\n");
