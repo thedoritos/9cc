@@ -161,13 +161,13 @@ void gen(Node *node) {
 
   switch (node->kind) {
   case ND_ADD:
-    printf("    add rax rdi\n");
+    printf("    add rax, rdi\n");
     break;
   case ND_SUB:
-    printf("    sub rax rdi\n");
+    printf("    sub rax, rdi\n");
     break;
   case ND_MUL:
-    printf("    imul rax rdi\n");
+    printf("    imul rax, rdi\n");
     break;
   case ND_DIV:
     printf("    cqo\n");
