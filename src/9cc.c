@@ -148,12 +148,12 @@ Node *mul() {
 }
 
 Node *expr() {
-  Node *node = primary();
+  Node *node = mul();
   for (;;) {
     if (consume('+'))
-      node = new_node(ND_ADD, node, primary());
+      node = new_node(ND_ADD, node, mul());
     else if (consume('-'))
-      node = new_node(ND_SUB, node, primary());
+      node = new_node(ND_SUB, node, mul());
     else
       return node;
   }
