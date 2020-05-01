@@ -21,5 +21,6 @@ try 42 42
 try 21 "53+76-108"
 try 99 " 123 - 8 +   32 - 48 "
 try 63 "3*21"
+try 0 "1+1" # This test should fail
 
 echo OK
