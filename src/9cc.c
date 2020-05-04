@@ -28,6 +28,8 @@ typedef enum {
   ND_MUL,
   ND_DIV,
   ND_NUM,
+  ND_EQ,
+  ND_NE,
 } NodeKind;
 
 typedef struct Node Node;
@@ -97,6 +99,10 @@ int expect_number() {
 
 bool at_eof() { return token->kind == TK_EOF; }
 
+bool starts_with(char *str, char *op) {
+  return strncmp(str, op, strlen(op)) == 0;
+}
+
 Token *new_token(TokenKind kind, Token *cur, char *str, int len) {
   Token *t = calloc(1, sizeof(Token));
   t->kind = kind;
@@ -114,6 +120,13 @@ Token *tokenize(char *p) {
   while (*p) {
     if (isspace(*p)) {
       p++;
+      continue;
+    }
+
+    if (starts_with(p, "==") || starts_with(p, "!=") || starts_with(p, "<=") ||
+        starts_with(p, ">=")) {
+      cur = new_token(TK_RESERVED, cur, p, 2);
+      p += 2;
       continue;
     }
 
@@ -170,7 +183,7 @@ Node *mul() {
   }
 }
 
-Node *expr() {
+Node *add() {
   Node *node = mul();
   for (;;) {
     if (consume("+"))
@@ -181,6 +194,20 @@ Node *expr() {
       return node;
   }
 }
+
+Node *equality() {
+  Node *node = add();
+  for (;;) {
+    if (consume("=="))
+      node = new_node(ND_EQ, node, add());
+    else if (consume("!="))
+      node = new_node(ND_NE, node, add());
+    else
+      return node;
+  }
+}
+
+Node *expr() { return equality(); }
 
 void gen(Node *node) {
   if (node->kind == ND_NUM) {
@@ -207,6 +234,16 @@ void gen(Node *node) {
   case ND_DIV:
     printf("    cqo\n");
     printf("    idiv rdi\n");
+    break;
+  case ND_EQ:
+    printf("    cmp rax, rdi\n");
+    printf("    sete al\n");
+    printf("    movzb rax, al\n");
+    break;
+  case ND_NE:
+    printf("    cmp rax, rdi\n");
+    printf("    setne al\n");
+    printf("    movzb rax, al\n");
     break;
   }
 
