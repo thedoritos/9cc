@@ -34,3 +34,20 @@ struct Node {
   Node *rhs;
   int val;
 };
+
+void error(char *fmt, ...);
+void error_at(char *loc, char *fmt, ...);
+
+bool consume(char *op);
+void expect(char *op);
+int expect_number();
+bool starts_with(char *str, char *op);
+
+Token *new_token(TokenKind kind, Token *cur, char *str, int len);
+Token *tokenize(char *p);
+
+Node *new_node(NodeKind kind, Node *lhs, Node *rhs);
+Node *new_node_num(int val);
+Node *expr();
+
+void gen(Node *node);
