@@ -6,8 +6,6 @@
 #include <string.h>
 #include "9cc.h"
 
-Token *token;
-
 Node *new_node(NodeKind kind, Node *lhs, Node *rhs) {
   Node *node = calloc(1, sizeof(Node));
   node->kind = kind;
@@ -30,8 +28,6 @@ void error(char *fmt, ...) {
   fprintf(stderr, "\n");
   exit(1);
 }
-
-char *user_input;
 
 void error_at(char *loc, char *fmt, ...) {
   int pos = loc - user_input;
@@ -241,25 +237,4 @@ void gen(Node *node) {
   }
 
   printf("    push rax\n");
-}
-
-int main(int argc, char **argv) {
-  if (argc != 2) {
-    fprintf(stderr, "Wrong number of args\n");
-    return 1;
-  }
-
-  user_input = argv[1];
-  token = tokenize(user_input);
-  Node *node = expr();
-
-  printf(".intel_syntax noprefix\n");
-  printf(".global main\n");
-  printf("main:\n");
-
-  gen(node);
-
-  printf("    pop rax\n");
-  printf("    ret\n");
-  return 0;
 }

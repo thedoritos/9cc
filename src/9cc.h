@@ -1,3 +1,5 @@
+#include <stdbool.h>
+
 typedef enum {
   TK_RESERVED,
   TK_NUM,
@@ -34,6 +36,9 @@ struct Node {
   Node *rhs;
   int val;
 };
+
+extern char *user_input;
+extern Token *token;
 
 void error(char *fmt, ...);
 void error_at(char *loc, char *fmt, ...);
