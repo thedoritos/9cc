@@ -1,7 +1,7 @@
+#include "9cc.h"
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
-#include "9cc.h"
 
 bool consume(char *op) {
   if (token->kind != TK_RESERVED || memcmp(token->str, op, token->len)) {

@@ -1,8 +1,8 @@
+#include "9cc.h"
 #include <ctype.h>
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
-#include "9cc.h"
 
 bool starts_with(char *str, char *op) {
   return strncmp(str, op, strlen(op)) == 0;

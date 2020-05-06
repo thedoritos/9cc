@@ -1,5 +1,5 @@
-#include <stdio.h>
 #include "9cc.h"
+#include <stdio.h>
 
 char *user_input;
 Token *token;

@@ -1,5 +1,5 @@
-#include <stdio.h>
 #include "9cc.h"
+#include <stdio.h>
 
 void gen(Node *node) {
   if (node->kind == ND_NUM) {
