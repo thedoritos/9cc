@@ -18,6 +18,8 @@ int main(int argc, char **argv) {
   printf(".global main\n");
   printf("main:\n");
 
+  printf("    mov rbp, rsp\n");
+
   gen(node);
 
   printf("    pop rax\n");
