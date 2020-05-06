@@ -149,3 +149,10 @@ Node *stmt() {
   expect(";");
   return node;
 }
+
+void program() {
+  int i = 0;
+  while(!at_eof())
+    code[i++] = stmt();
+  code[i] = NULL;
+}

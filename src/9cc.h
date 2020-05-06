@@ -43,6 +43,7 @@ struct Node {
 
 extern char *user_input;
 extern Token *token;
+extern Node *code[];
 
 void error(char *fmt, ...);
 void error_at(char *loc, char *fmt, ...);
@@ -50,6 +51,6 @@ void error_at(char *loc, char *fmt, ...);
 Token *tokenize(char *p);
 
 Node *expr();
-Node *stmt();
+void program();
 
 void gen(Node *node);
