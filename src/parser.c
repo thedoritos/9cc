@@ -4,7 +4,7 @@
 #include <string.h>
 
 bool consume(char *op) {
-  if (token->kind != TK_RESERVED || memcmp(token->str, op, token->len)) {
+  if (token->kind != TK_RESERVED || token->len != strlen(op) || memcmp(token->str, op, token->len)) {
     return false;
   }
   token = token->next;
