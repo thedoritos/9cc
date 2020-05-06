@@ -11,6 +11,15 @@ bool consume(char *op) {
   return true;
 }
 
+Token *consume_ident() {
+  if (token->kind != TK_IDENT) {
+    return NULL;
+  }
+  Token *ident = token;
+  token = token->next;
+  return ident;
+}
+
 void expect(char *op) {
   if (token->kind != TK_RESERVED || memcmp(token->str, op, token->len)) {
     error_at(token->str, "Character is not a symbol of '%c'", op);
@@ -37,6 +46,13 @@ Node *new_node(NodeKind kind, Node *lhs, Node *rhs) {
   return node;
 }
 
+Node *new_node_ident(char a) {
+  Node *node = calloc(1, sizeof(Node));
+  node->kind = ND_LVAR;
+  node->offset = (a - 'a' + 1) * 8;
+  return node;
+}
+
 Node *new_node_num(int val) {
   Node *node = calloc(1, sizeof(Node));
   node->kind = ND_NUM;
@@ -50,6 +66,11 @@ Node *primary() {
     expect(")");
     return node;
   }
+
+  Token *ident = consume_ident();
+  if (ident)
+    return new_node_ident(ident->str[0]);
+
   return new_node_num(expect_number());
 }
 
@@ -114,4 +135,16 @@ Node *equality() {
   }
 }
 
-Node *expr() { return equality(); }
+Node *assign() {
+  Node *node = equality();
+  if (consume("="))
+    node = new_node(ND_ASSIGN, node, assign());
+  return node;
+}
+
+Node *expr() { return assign(); }
+
+Node *stmt() {
+  Node *node = expr();
+  return node;
+}
