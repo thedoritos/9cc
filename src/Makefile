@@ -14,6 +14,6 @@ clean:
 		rm -f 9cc *.o *~ tmp*
 
 format:
-		clang-format -i 9cc.c
+		clang-format -i *.c
 
 .PHONY: test clean format
