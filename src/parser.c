@@ -146,5 +146,6 @@ Node *expr() { return assign(); }
 
 Node *stmt() {
   Node *node = expr();
+  expect(";");
   return node;
 }
