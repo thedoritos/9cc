@@ -28,6 +28,11 @@ Token *tokenize(char *p) {
       continue;
     }
 
+    if ('a' <= *p && *p <= 'z') {
+      cur = new_token(TK_IDENT, cur, p++, 1);
+      continue;
+    }
+
     if (starts_with(p, "==") || starts_with(p, "!=") || starts_with(p, "<=") ||
         starts_with(p, ">=")) {
       cur = new_token(TK_RESERVED, cur, p, 2);
@@ -35,7 +40,7 @@ Token *tokenize(char *p) {
       continue;
     }
 
-    if (strchr("+-*/()<>", *p)) {
+    if (strchr("+-*/()<>=;", *p)) {
       cur = new_token(TK_RESERVED, cur, p++, 1);
       continue;
     }
