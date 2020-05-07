@@ -33,7 +33,7 @@ Token *tokenize(char *p) {
       while ('a' <= *p && *p <= 'z') {
         p++;
       }
-      cur = new_token(TK_IDENT, cur, q, q - p);
+      cur = new_token(TK_IDENT, cur, q, p - q);
       continue;
     }
 
