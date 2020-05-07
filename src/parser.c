@@ -4,7 +4,8 @@
 #include <string.h>
 
 bool consume(char *op) {
-  if (token->kind != TK_RESERVED || token->len != strlen(op) || memcmp(token->str, op, token->len)) {
+  if (token->kind != TK_RESERVED || token->len != strlen(op) ||
+      memcmp(token->str, op, token->len)) {
     return false;
   }
   token = token->next;
@@ -152,7 +153,7 @@ Node *stmt() {
 
 void program() {
   int i = 0;
-  while(!at_eof())
+  while (!at_eof())
     code[i++] = stmt();
   code[i] = NULL;
 }
