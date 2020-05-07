@@ -50,5 +50,6 @@ try 10 "a = 1; b = 2 * 3; a * 4 + b;"
 try 1 "abc = 1;"
 try 2 "xyz = 2; xyz;"
 try 10 "abc = 1; efg = 2 * 3; abc + efg + 3;"
+try 2 "ant = 1; apple = 2; ant * apple;"
 
 echo OK
