@@ -4,7 +4,8 @@
 #include <string.h>
 
 bool consume(char *op) {
-  if (token->kind != TK_RESERVED || token->len != strlen(op) || memcmp(token->str, op, token->len)) {
+  if (token->kind != TK_RESERVED || token->len != strlen(op) ||
+      memcmp(token->str, op, token->len)) {
     return false;
   }
   token = token->next;
@@ -38,6 +39,15 @@ int expect_number() {
 
 bool at_eof() { return token->kind == TK_EOF; }
 
+LVar *locals;
+
+LVar *find_lvar(Token *t) {
+  for (LVar *var = locals; var; var = var->next)
+    if (var->len == t->len && !memcmp(t->str, var->name, var->len))
+      return var;
+  return NULL;
+}
+
 Node *new_node(NodeKind kind, Node *lhs, Node *rhs) {
   Node *node = calloc(1, sizeof(Node));
   node->kind = kind;
@@ -46,10 +56,24 @@ Node *new_node(NodeKind kind, Node *lhs, Node *rhs) {
   return node;
 }
 
-Node *new_node_ident(char a) {
+Node *new_node_ident(Token *t) {
   Node *node = calloc(1, sizeof(Node));
   node->kind = ND_LVAR;
-  node->offset = (a - 'a' + 1) * 8;
+
+  LVar *lvar = find_lvar(t);
+  if (lvar) {
+    node->offset = lvar->offset;
+    return node;
+  }
+
+  lvar = calloc(1, sizeof(LVar));
+  lvar->next = locals;
+  lvar->name = t->str;
+  lvar->len = t->len;
+  lvar->offset = locals ? locals->offset + 8 : 8;
+  locals = lvar;
+
+  node->offset = lvar->offset;
   return node;
 }
 
@@ -69,7 +93,7 @@ Node *primary() {
 
   Token *ident = consume_ident();
   if (ident)
-    return new_node_ident(ident->str[0]);
+    return new_node_ident(ident);
 
   return new_node_num(expect_number());
 }
@@ -152,7 +176,7 @@ Node *stmt() {
 
 void program() {
   int i = 0;
-  while(!at_eof())
+  while (!at_eof())
     code[i++] = stmt();
   code[i] = NULL;
 }
