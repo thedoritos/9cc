@@ -52,7 +52,9 @@ try 2 "xyz = 2; xyz;"
 try 10 "abc = 1; efg = 2 * 3; abc + efg + 3;"
 try 2 "ant = 1; apple = 2; ant * apple;"
 
+try 0 "return 0;"
 try 1 "a = 1; return a; 99;"
 try 2 "b = 1; return b * 2; return 99;"
+try 3 "return0 = 3; return0;"
 
 echo OK
