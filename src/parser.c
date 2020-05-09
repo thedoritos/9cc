@@ -21,6 +21,15 @@ Token *consume_ident() {
   return ident;
 }
 
+Token *consume_return() {
+  if (token->kind != TK_RETURN) {
+    return NULL;
+  }
+  Token *ret = token;
+  token = token->next;
+  return ret;
+}
+
 void expect(char *op) {
   if (token->kind != TK_RESERVED || memcmp(token->str, op, token->len)) {
     error_at(token->str, "Character is not a symbol of '%c'", op);
@@ -169,6 +178,12 @@ Node *assign() {
 Node *expr() { return assign(); }
 
 Node *stmt() {
+  if (consume_return()) {
+    Node *node = new_node(ND_RETURN, expr(), NULL);
+    expect(";");
+    return node;
+  }
+
   Node *node = expr();
   expect(";");
   return node;
