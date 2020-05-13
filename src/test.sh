@@ -57,4 +57,7 @@ try 1 "a = 1; return a; 99;"
 try 2 "b = 1; return b * 2; return 99;"
 try 3 "return0 = 3; return0;"
 
+try 2 "a = 1; if (a > 0) a = a + 1; a;"
+try 1 "b = 1; if (b < 0) b = b + 1; b;"
+
 echo OK
