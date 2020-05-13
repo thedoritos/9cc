@@ -30,11 +30,15 @@ void gen(Node *node) {
     printf("    push rdi\n");
     return;
   case ND_IF:
-    gen(node->lhs);
+    gen(node->cond);
     printf("    pop rax\n");
     printf("    cmp rax, 0\n");
-    printf("    je .Lend\n");
-    gen(node->rhs);
+    printf("    je .Lelse\n");
+    gen(node->lhs);
+    printf("    jmp .Lend\n");
+    printf(".Lelse:\n");
+    if (node->rhs)
+      gen(node->rhs);
     printf(".Lend:\n");
     return;
   case ND_RETURN:
