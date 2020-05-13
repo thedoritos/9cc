@@ -41,6 +41,12 @@ Token *tokenize(char *p) {
       continue;
     }
 
+    if (starts_with(p, "if") && !is_alnum(p[2])) {
+      cur = new_token(TK_RESERVED, cur, p, 2);
+      p += 2;
+      continue;
+    }
+
     if (is_alnum(*p) && !is_num(*p)) {
       char *q = p;
       while (is_alnum(*p)) {
