@@ -47,6 +47,7 @@ typedef struct Node Node;
 
 struct Node {
   NodeKind kind;
+  Node *cond;
   Node *lhs;
   Node *rhs;
   int val;

@@ -188,8 +188,13 @@ Node *stmt() {
     expect("(");
     Node *cond = expr();
     expect(")");
-    Node *node = new_node(ND_IF, cond, expr());
+    Node *node = new_node(ND_IF, expr(), NULL);
     expect(";");
+    node->cond = cond;
+    if (consume("else")) {
+      node->rhs = expr();
+      expect(";");
+    }
     return node;
   }
 
