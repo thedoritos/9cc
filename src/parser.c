@@ -184,6 +184,20 @@ Node *stmt() {
     return node;
   }
 
+  if (consume("if")) {
+    expect("(");
+    Node *cond = expr();
+    expect(")");
+    Node *node = new_node(ND_IF, expr(), NULL);
+    expect(";");
+    node->cond = cond;
+    if (consume("else")) {
+      node->rhs = expr();
+      expect(";");
+    }
+    return node;
+  }
+
   Node *node = expr();
   expect(";");
   return node;

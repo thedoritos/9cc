@@ -40,12 +40,14 @@ typedef enum {
   ND_LT,
   ND_LE,
   ND_RETURN,
+  ND_IF,
 } NodeKind;
 
 typedef struct Node Node;
 
 struct Node {
   NodeKind kind;
+  Node *cond;
   Node *lhs;
   Node *rhs;
   int val;
