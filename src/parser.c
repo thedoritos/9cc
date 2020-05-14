@@ -198,6 +198,16 @@ Node *stmt() {
     return node;
   }
 
+  if (consume("while")) {
+    expect("(");
+    Node *cond = expr();
+    expect(")");
+    Node *node = new_node(ND_WHILE, expr(), NULL);
+    expect(";");
+    node->cond = cond;
+    return node;
+  }
+
   Node *node = expr();
   expect(";");
   return node;

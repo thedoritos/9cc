@@ -62,4 +62,7 @@ try 1 "b = 1; if (b < 0) b = b + 1; b;"
 try 3 "c = 1; if (c > 0) c = c * 3; else c = c + 1; c;"
 try 4 "d = 8; if (d < 0) d = d / 1; else d = d / 2; d;"
 
+try 5 "e = 0; while (e < 5) e = e + 1; e;"
+try 0 "e = 0; while (e > 5) e = e + 1; e;"
+
 echo OK
