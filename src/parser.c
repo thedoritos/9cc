@@ -208,6 +208,26 @@ Node *stmt() {
     return node;
   }
 
+  if (consume("for")) {
+    Node *node = calloc(1, sizeof(Node));
+    node->kind = ND_FOR;
+    expect("(");
+    if (!consume(";")) {
+      node->init = expr();
+      expect(";");
+    }
+    if (!consume(";")) {
+      node->cond = expr();
+      expect(";");
+    }
+    if (!consume(")")) {
+      node->incr = expr();
+      expect(")");
+    }
+    node->then = stmt();
+    return node;
+  }
+
   Node *node = expr();
   expect(";");
   return node;
