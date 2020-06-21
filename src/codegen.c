@@ -51,6 +51,22 @@ void gen(Node *node) {
     printf("    jmp .Lwhile\n");
     printf(".Lend:\n");
     return;
+  case ND_FOR:
+    if (node->init)
+      gen(node->init);
+    printf(".Lfor:\n");
+    if (node->cond) {
+      gen(node->cond);
+      printf("    pop rax\n");
+      printf("    cmp rax, 0\n");
+      printf("    je .Lend\n");
+    }
+    gen(node->then);
+    if (node->incr)
+      gen(node->incr);
+    printf("    jmp .Lfor\n");
+    printf(".Lend:\n");
+    return;
   case ND_RETURN:
     gen(node->lhs);
     printf("    pop rax\n");

@@ -65,4 +65,7 @@ try 4 "d = 8; if (d < 0) d = d / 1; else d = d / 2; d;"
 try 5 "e = 0; while (e < 5) e = e + 1; e;"
 try 0 "e = 0; while (e > 5) e = e + 1; e;"
 
+try 3 "a = 0; for (i = 0; i < 3; i = i + 1) a = a + i; a;"
+try 9 "b = 0; for (; b < 9;) b = b + 1; b;"
+
 echo OK
