@@ -67,6 +67,16 @@ void gen(Node *node) {
     printf("    jmp .Lfor\n");
     printf(".Lend:\n");
     return;
+  case ND_BLOCK:
+    node = node->body;
+    printf("    \n");
+    while (node != NULL) {
+      gen(node);
+      node = node->next;
+      printf("    pop rax\n");
+      printf("    \n");
+    }
+    return;
   case ND_RETURN:
     gen(node->lhs);
     printf("    pop rax\n");

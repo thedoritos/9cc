@@ -228,6 +228,23 @@ Node *stmt() {
     return node;
   }
 
+  if (consume("{")) {
+    Node *node = calloc(1, sizeof(Node));
+    node->kind = ND_BLOCK;
+    Node *item = NULL;
+    while (!consume("}")) {
+      Node *next = stmt();
+      if (item == NULL) {
+        item = next;
+        node->body = item;
+      } else {
+        item->next = next;
+        item = next;
+      }
+    }
+    return node;
+  }
+
   Node *node = expr();
   expect(";");
   return node;
